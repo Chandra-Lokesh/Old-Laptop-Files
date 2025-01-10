@@ -1,0 +1,34 @@
+flowchart TD
+    U1[User Registration & Authentication] --> UC1A[Register with valid email and password]
+    U1 --> UC1B[Receive confirmation email after registration]
+    U1 --> UC1C[Log in and access profile page]
+
+    U2[Portfolio Creation] --> UC2A[Add/remove stocks from portfolio]
+    U2 --> UC2B[Real-time portfolio value updates]
+
+    U3[Real-Time News Feed] --> UC3A[News feed based on portfolio stocks]
+    U3 --> UC3B[News articles display sentiment indicators]
+
+    U4[Stock Sentiment Analysis] --> UC4A[Sentiment score for each stock]
+    U4 --> UC4B[Scores updated daily with market news]
+
+    U5[Stock Watchlist] --> UC5A[Add stocks to watchlist]
+    U5 --> UC5B[Watchlist shows real-time price updates]
+
+    U6[Buy/Sell Decision Support] --> UC6A[Suggestions based on market analysis]
+    U6 --> UC6B[Alerts for buy/sell thresholds]
+
+    U7[Custom Alerts and Notifications] --> UC7A[Set alerts for price changes, limits]
+    U7 --> UC7B[Receive push or in-app notifications]
+
+    U8[Historical Stock Performance Charting] --> UC8A[View historical data chart]
+    U8 --> UC8B[Hover for specific data values]
+
+    U9[User Education on Investment Basics] --> UC9A[Beginner-friendly articles and videos]
+    U9 --> UC9B[Topics on terms, portfolio, risk management]
+
+    U10[Market Trend Analysis] --> UC10A[Major indices trends]
+    U10 --> UC10B[Indicators like daily changes, sentiment]
+
+    U11[In-App Chat Support] --> UC11A[Chat support during working hours]
+    U11 --> UC11B[Chatbot responses, connect to human agents]
