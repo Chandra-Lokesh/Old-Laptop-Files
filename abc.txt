@@ -1,0 +1,4 @@
+@EnableEurekaServer
+@EnableDiscoveryClient
+
+localhost:8761

@@ -1,0 +1,61 @@
+API KEYS
+--------------------------
+
+3llTujA8PkxBmnSZ8x1HCGKQxXDkSRKE
+pevGoECHGn8UiWcyOX81LFWoWxE0YRkA
+LJ6fDgxa9to6iHigPs8yzeoSRbRoTPp1
+XPxE3IQ2p1k5zm7q7iQpTvyQcLl5CmXA
+fI7xHkDf3kaHvWyWePCqqCseQZCO2syS
+SU8vWVog4OblSS041kxcjonG1iisyqm5
+
+ZODATH6Z10JzsSZxli4IF3g05VCy0cqv //get by id
+Bf1qf59brYWxtKcF7yZ23YwPWsJ8ffVB //get by id
+ZzHQ25r7NnIPVpLMuICXGp5eVJiZ4F9s //addstock,removestock
+a4lmjP9ZnZEyRUTwQIs77xZUsqEVIMlw //chart 1
+0Wt2vShmbEzxiKakHgylqOSSe46zFKWq //chart 2 3 4
+GrhYTKgHUBmBXJZbvxRQQYZmTVlI46pW //scroll bar
+MGiSht6kS3PEzgsTG0B6QLLhwZFnQ5Kn //sentiment
+Jyl3wEcwEARgPGuXVxpjwaPFirXa72Js //stock card
+VhQnuD70QCS4hW4jo70I7jUPacIBPsBi //user favourites
+6dqDm0GWXfdFRY0gXMOq0MglA2t8qTNM //user stocks
+x1qwlNXMFWLhFGvCVbeaYwIuq8K2N7bq //gainers
+RnFmPO69dKTKtT90Hg1JvEhxMbv0Gq2J //loosers
+MBYdBMcCUbup2KaRkZHcU4QT7Re8oEAk //image of lg
+k62lEqH6uWmEMZUts89tX4FVO1rFmrQl //search-bar
+UFXyZvKSRmeN4O8PgP2rR8bNQUZ5rfka //search-bar
+7KXUnfbjsR3nwfAbeK6PC137EwjApNYT //active-stocks
+tPD78IAAUfS9ARkXveZjPtgZKCHQDKWd //active-stocks
+
+
+---- SPARE KEYS
+
+
+9IXI7KzExc1xmRqOCLLGE83MP2gCGEE5 //get by id
+Az5SbJs9FOZGxCLnMCTL7gtgm7YZLzqg //addstock,removestock
+vyrIEeTGSnS7SfBrtd4L5CqL7El8jP6B //chart 1
+UHpFhJeavsw3ALDKVE2cCClCN69Fcskq //chart 2 3 4
+IXttDcr5LCXvNVxjtmqJxI3VF2KiwQPj  //scroll bar
+6nby4MIMp5WNjKThVtbMnCGoWSLjjQMC //sentiment
+wfO8y5YszLnJ6ih2Gz0JrhMNo0JrwWu5  //stock card
+abAFrO4BJZSqXTcEvaMLaGh2vdRctZLG //user favourites
+O1TvtiQ93vKN1RnWYP6fp0MdsVXrdqnb //user stocks
+ox4M0mIE6B3mOzG6oNLl4vqCfmtjJwev //gainers
+3llTujA8PkxBmnSZ8x1HCGKQxXDkSRKE //loosers
+pevGoECHGn8UiWcyOX81LFWoWxE0YRkA //image of lg
+LJ6fDgxa9to6iHigPs8yzeoSRbRoTPp1 //search-bar
+XPxE3IQ2p1k5zm7q7iQpTvyQcLl5CmXA //search-bar
+fI7xHkDf3kaHvWyWePCqqCseQZCO2syS //active-stocks
+SU8vWVog4OblSS041kxcjonG1iisyqm5 //active-stocks
+
+
+
+
+
+Alpha Vantage ->
+QGOOX84KY0APCQTT
+
+
+API'S
+
+Company Information -> https://financialmodelingprep.com/api/v3/profile/AAPL?apikey=0ifLq1aA7VD9NIlY9ttARzZqWgMryG4L
+Search -> https://financialmodelingprep.com/api/v3/search?query=APPLE&apikey=0ifLq1aA7VD9NIlY9ttARzZqWgMryG4L

@@ -1,0 +1,655 @@
+user controller
+
+package com.wecp.controller;
+import java.util.List;
+import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import com.wecp.entities.User;
+import com.wecp.repos.UserRepository;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+
+@RestController
+
+@CrossOrigin("*")
+public class UserController {
+	
+	@Autowired
+	UserRepository repository;
+	
+	@RequestMapping(value = "/user", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> saveUser(@RequestBody User user)
+			throws Exception {
+
+		/**
+		 * @todo Perform mandatory validations on the incoming attributes of the User object passed.
+		 */
+
+
+		/**
+		 * @todo make sure the user is created if the userId doesn't exist
+		 * @todo make sure teh user is updated if the user id passed do exists
+		 * 		
+		 */
+		User usr = repository.findByUserId(user.getUserId());
+			if(usr == null) {
+				repository.save(user);
+			}else {
+				usr.setPassword(user.getPassword());	
+				repository.save(user);		
+			}
+		Map<String, String> data = new HashMap<>();
+		data.put("success", "User added successfully");
+		return new ResponseEntity<>(data, null);
+	}
+	/**
+	 * @todo Add the appropriate RequestMapping & PreAuthorize annotations
+	 */
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> getAllUsers() throws Exception {
+
+		List<User> users = repository.findAll();
+
+		return ResponseEntity.ok(users);
+	}
+	
+	// f. Fetch Outstanding balance for a Client user (Client) - /out-standing?userId=John
+	// [GET]
+	@RequestMapping(value="/all-transactions",method = RequestMethod.GET)
+	@PreAuthorize("hasRole('CLIENT')")
+	public ResponseEntity<?> getOutstandingBalance(@RequestParam("userId") String userId) throws Exception {
+		User user = repository.findByUserId(userId);
+        if(Objects.nonNull(user)) {
+            return ResponseEntity.ok(user.getOustanding());
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+	}  
+
+}
+
+
+
+
+user transaction controller
+
+
+package com.wecp.controller;
+import java.util.List;
+import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import com.wecp.entities.User;
+import com.wecp.entities.UserTransaction;
+import com.wecp.repos.UserRepository;
+import com.wecp.repos.UserTransactionRepository;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+@RestController
+public class UserTransactionController {
+	@Autowired
+	UserTransactionRepository userTransactionRepository;
+
+	@Autowired
+	UserRepository userRepository;
+	
+	@RequestMapping(value = "/transaction", method = RequestMethod.POST)
+	public ResponseEntity<?> transact(@RequestBody UserTransaction transaction)
+			throws Exception {
+			/**
+			 * @todo Add validations on the incoming transaction object to make sure all the important attributes are not null
+			 */
+
+			 /**
+			  * @todo Make sure the User exists in the database table for the user id passed.
+			  */
+
+			 /**
+			  * @todo Add code to insert a new UserTransaction record for CREDIT/DEBIT types.
+			  *	@todo Make sure if the outstanding balance is less than the debit amount, you don't allow the transaction record to be created
+			  *	@todo Throw an Exception with 'NOT_ENOUGH_BALANCE' message
+			  */
+
+			if(transaction.getTransactionType().equals("CREDIT")) {
+				User user = userRepository.findByUserId(transaction.getUserId());
+                if(user == null){
+                    throw new Exception("User not found");
+                }
+                Double newBalance = user.getOustanding() + transaction.getTransactionAmount();
+                if(newBalance < 0){
+                    throw new Exception("NOT_ENOUGH_BALANCE");
+                }
+                user.setOustanding(newBalance);
+                userRepository.save(user);
+                transaction.setUser(user);
+                userTransactionRepository.save(transaction);				
+			}
+			else if(transaction.getTransactionType().equals("DEBIT")){
+				User user = userRepository.findByUserId(transaction.getUserId());
+                if(user == null){
+                    throw new Exception("User not found");
+                }
+                Double newBalance = user.getOustanding() - transaction.getTransactionAmount();
+                if(newBalance < 0){
+                    throw new Exception("NOT_ENOUGH_BALANCE");
+                }
+                user.setOustanding(newBalance);
+                userRepository.save(user);
+                transaction.setUser(user);
+                userTransactionRepository.save(transaction);	
+			}
+
+		Map<String, String> data = new HashMap<>();
+		data.put("success", "Transaction performed successfully");
+		return new ResponseEntity<>(null, HttpStatus.OK);
+	}
+
+}
+
+
+
+
+
+jwt authentication controller:
+
+package com.wecp.controller;
+
+import java.util.Objects;
+import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import com.wecp.config.JwtTokenUtil;
+import com.wecp.model.JwtRequest;
+import com.wecp.model.JwtResponse;
+@RestController
+public class JwtAuthenticationController {
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private UserDetailsService jwtInMemoryUserDetailsService;
+	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
+			throws Exception {
+
+		UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+		/**
+		 * @todo fetch the userDetails object from db
+		 */
+		if(userDetails == null) {
+			return ResponseEntity.unprocessableEntity().build();
+		}
+
+		/**
+		 * Do password match. if password doesn't match, return from the method without returning the token
+		 * 
+		 */
+		if(!passwordEncoder.matches(authenticationRequest.getPassword(),userDetails.getPassword()));
+
+		final String token = jwtTokenUtil.generateToken(userDetails);
+
+		return ResponseEntity.ok(new JwtResponse(token));
+	}
+
+	private void authenticate(UserDetails userDetails) throws Exception {
+		Objects.requireNonNull(userDetails);
+		Objects.requireNonNull(userDetails.getUsername());
+		Objects.requireNonNull(userDetails.getPassword());
+		
+
+	}
+}
+
+
+
+
+user.java
+
+package com.wecp.entities;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+public class User {
+	
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	 Long id;
+	 
+	 
+	 String userId;
+	 
+	 String password;
+	 
+	 String role;
+	 
+	 Double oustanding = 0d;
+	 
+	
+	/**
+	 * @todo Assign a 1 to many relationship with u_id mapping join column
+	 */
+	@OneToMany
+	@JoinColumn(name = "u_id")
+    @JsonIgnore
+    Set<UserTransaction> transactions;
+	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Double getOustanding() {
+		return oustanding;
+	}
+
+	public void setOustanding(Double oustanding) {
+		this.oustanding = oustanding;
+	}
+
+	public Set<UserTransaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(Set<UserTransaction> transactions) {
+		this.transactions = transactions;
+	}
+	 
+	 
+
+}
+
+
+
+usertransaction.java
+
+
+package com.wecp.entities;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+public class UserTransaction {
+	
+	
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	 Long id;
+	 
+	// @JsonIgnore
+	 @Transient
+	 String userId;
+	 
+	 Double balance;
+	 
+	 Double transactionAmount;
+	 
+	 String transactionType = "CREDIT"; //or "DEBIT"
+	 
+	 /**
+	  * @todo Assign a Many to One relationship with User entity with u_id as a join column name
+	  */
+	  @ManyToOne
+	  @JoinColumn(name = "u_id")
+	  @JsonIgnore
+	 User user;
+  
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public Double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+
+	public Double getTransactionAmount() {
+		return transactionAmount;
+	}
+
+	public void setTransactionAmount(Double transactionAmount) {
+		this.transactionAmount = transactionAmount;
+	}
+
+	public String getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	 
+	 
+	 
+	 
+
+}
+
+
+authservice ts
+
+
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "src/environments/environment";
+import { map, Observable } from "rxjs";
+import { User } from "../types/user";
+
+@Injectable({
+  providedIn: "root",
+})
+export class AuthService {
+  private loginUrl = `${environment.apiUrl}`;
+
+  constructor(private http: HttpClient) {}
+
+  login(user: User): Observable<{ [key: string]: string }> {
+    // @todo : Api call to /authenticate
+    return this.http.post<{ [key: string]: string }>(`${this.loginUrl}/authenticate`, user);
+  }
+
+  getToken() {
+    return localStorage.getItem("token");
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.loginUrl}/fetchusers`);
+  }
+
+  createUser(user: User): Observable<User> {
+    // @todo : should create a user in the system at the endpoint "/user"
+    return this.http.post<User>(`${this.loginUrl}/user`, user);
+    
+  }
+}
+
+
+
+transaction service ts
+
+
+import { Injectable } from "@angular/core";
+import { environment } from "src/environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { Transaction } from "../types/transaction";
+import { Observable } from "rxjs";
+
+@Injectable({
+  providedIn: "root",
+})
+export class TransactionService {
+  private baseUrl = `${environment.apiUrl}`;
+
+  constructor(private http: HttpClient) {}
+
+  performTransaction(transaction: Transaction): Observable<Transaction> {
+    // @todo : should make an API call to /transaction and perform the transaction
+    return this.http.post<Transaction>(`${this.baseUrl}/transaction`, transaction);
+  }
+
+
+  getOutstandingBalance(userId: string): Observable<number> {
+    //@todo: Call the endpoint /out-standing?userId=${userId} to get the outstanding balance for a user with given userId
+    return this.http.get<number>(`${this.baseUrl}/out-standing?userId=${userId}`);
+  }
+
+  getAllTranactions(userId: string): Observable<Transaction[]> {
+   //@todo: Call the endpoint /all-transactions?userId=${userId} to get list of all transaction performed by user with given userId
+    return this.http.get<Transaction[]>(`${this.baseUrl}/all-transactions?userId=${userId}`);
+
+  }
+}
+
+
+
+user component ts
+
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Observable, of } from "rxjs";
+import { User } from "../../types/user";
+import { AuthService } from "../../services/auth.service";
+
+@Component({
+  selector: "app-user",
+  templateUrl: "./user.component.html",
+  styleUrls: ["./user.component.scss"],
+})
+export class UserComponent implements OnInit {
+  userForm: FormGroup;
+  userError$: Observable<string>;
+  userSuccess$: Observable<string>;
+  isFormSubmitted: boolean = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private authServie: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.userForm = this.formBuilder.group({
+      userId: ["", [Validators.required]],
+      password: ["", [Validators.required]],
+      role: ["", [Validators.required]],
+    });
+  }
+
+  onSubmit() {
+     //@todo:  when form is submitted make sure relevant fields (userId, password and role) are not empty, and make an api call to create user
+     // Display a successful (User added successfully) or error message (Unable to create user) to the user. You can use userSuccess$ and userError$ variables given to you for this.
+     this.isFormSubmitted = true;
+     if (this.userForm.invalid) {
+      this.userError$=of(
+        "Unable to create user",
+      );
+      return;
+  }
+  else{
+    const{userId, password, role} = this.userForm.value;
+    this.authServie.createUser({userId, password, role}).subscribe(
+      (response) =>{
+        this.userSuccess$=of(
+          "User added successfully",
+        );
+      },
+      (error) =>{
+        this.userError$=of(
+          "Unable to create user",
+        );
+      }  // handle error here  e.g., this.userError$=of(error.message)
+    )
+  }
+}
+}
+
+
+
+transaction component ts
+
+
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Observable, map, of } from "rxjs";
+import { AuthService } from "src/app/auth/services/auth.service";
+import { User } from "src/app/auth/types/user";
+import { TransactionService } from "../../services/transaction.service";
+import { Transaction } from "../../types/transaction";
+
+@Component({
+  selector: "app-transaction",
+  templateUrl: "./transaction.component.html",
+  styleUrls: ["./transaction.component.scss"],
+})
+export class TransactionComponent implements OnInit {
+  transactionForm: FormGroup;
+
+  transactionError$: Observable<string>;
+  transactionSuccess$: Observable<string>;
+  users$: Observable<User[]>;
+  isFormSubmitted: boolean = false;
+  outstandingBalance$: Observable<number>;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private trnasactionService: TransactionService
+  ) {}
+
+  ngOnInit(): void {
+    this.transactionForm = this.formBuilder.group({
+      user: ["", [Validators.required]],
+      amount: ["", ""],
+      type: ["", ""],
+    });
+
+    // Make sure you check user's outstanding balance and display it in the UI on page load
+    // You will also need to load transaction history, if there are any previous transactions for this user 
+ 
+  }
+
+  onSubmit() {
+    this.isFormSubmitted = true;
+    //@todo:  when a trasaction is submitted make sure relevant fields (transactionAmount, transactionType) are not empty, and make an api call to perform transaction
+    // Once transaction is successfully submitted, update transaction history and outstanding balance for the user 
+    // If the transaction is not successful due to insufficient balance, display the error message as "Not enough balance to complete transaction"
+    // If it is a successful transaction, display the message as "Transaction performed successfully".
+  }
+
+  // Use this method fetch transaction history of a particular user
+  getAllTransactions() {
+    
+
+  }
+}
