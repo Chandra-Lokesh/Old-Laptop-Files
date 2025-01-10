@@ -1,0 +1,40 @@
+{
+  "trianees": [
+    {
+      "id": "1",
+      "name": "lokesh",
+      "location": "Hyderabad",
+      "joinDate": "2024-08-10"
+    },
+    {
+      "id": "2",
+      "name": "charan",
+      "location": "Chennai",
+      "joinDate": "2024-08-10"
+    },
+    {
+      "id": "3",
+      "name": "eugene",
+      "location": "chennai",
+      "joinDate": "2024-08-10"
+    },
+    {
+      "name": "harsh",
+      "location": "Mumbai",
+      "joinDate": "2024-09-20",
+      "id": "4"
+    },
+    {
+      "id": "2001",
+      "name": "Eugene",
+      "location": "Chennai",
+      "joindate": "2024-09-03"
+    },
+    {
+      "id": "3242",
+      "name": "Eugene",
+      "location": "Chennai",
+      "joindate": "2024-09-09"
+    }
+  ]
+}

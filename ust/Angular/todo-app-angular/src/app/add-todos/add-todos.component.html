@@ -1,0 +1,63 @@
+<div class="col-12 container">
+      <form (submit)="addTodos(todoForm.value)" #todoForm="ngForm">
+        <div class="form-group">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="title" id="title" class="form-control"
+            ngModel pattern="[a-zA-Z0-9 ]{3,}" required #titleText="ngModel"
+            [class.is-invalid] = "titleText.touched && titleText.invalid"
+            [class.is-valid] = "titleText.touched && titleText.valid"
+            >
+            <small *ngIf="titleText.touched && titleText.invalid">
+              <small *ngIf="titleText.errors?.['required']" class="text-danger">Title is required</small>
+              <small *ngIf="titleText.errors?.['pattern']" class="text-danger">Title is less than 3 characters</small>
+            </small>
+        </div>
+        <!-- <div class="form-group">
+            <label for="status" class="form-label">Status</label>
+            <input type="text" name="status" id="status" class="form-control"
+            ngModel pattern="[a-zA-Z0-9 ]{3,}" required #statusText="ngModel"
+            [class.is-invalid] = "statusText.touched && statusText.invalid"
+            [class.is-valid] = "statusText.touched && statusText.valid"
+            >
+            <small *ngIf="statusText.touched && statusText.invalid">
+              <small *ngIf="statusText.errors?.['required']" class="text-danger">Status is required</small>
+              <small *ngIf="statusText.errors?.['pattern']" class="text-danger">Status is less than 3 characters</small>  
+            </small>
+        </div> -->
+        <div class="form-group">
+          <label for="status" class="form-label">Status</label>
+          <select 
+            name="status" 
+            id="status" 
+            class="form-control"
+            ngModel 
+            required 
+            #statusText="ngModel" 
+            [class.is-invalid]="statusText.touched && statusText.invalid" 
+            [class.is-valid]="statusText.touched && statusText.valid"
+          >
+            <option value="" disabled selected>Select Status</option>
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
+          </select>
+          <small *ngIf="statusText.touched && statusText.invalid">
+            <small *ngIf="statusText.errors?.['required']" class="text-danger">Status is required</small>
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="dueDate" class="form-label">Due Date</label>
+          <input type="date" class="form-control" name="dueDate" id="dueDate"
+          required ngModel #dueDateText="ngModel"
+          [class.is-invalid] = "dueDateText.touched && dueDateText.invalid"
+          [class.is-valid] = "dueDateText.touched && dueDateText.valid"
+          >
+        </div>
+        
+        <div class="form-group">
+            <button [disabled]="todoForm.invalid" type="submit" class="btn btn-primary" style="margin: 15px 15px 0 0;">Save Todo</button>
+            <button type="reset" class="btn btn-dark" style="margin: 15px 15px 0 0;">Reset</button>
+            <!-- <button type="button" (click)="printTodos()" class="btn btn-success" style="margin: 15px 15px 0 0;">Print Todos</button> -->
+        </div>
+      </form>
+</div>

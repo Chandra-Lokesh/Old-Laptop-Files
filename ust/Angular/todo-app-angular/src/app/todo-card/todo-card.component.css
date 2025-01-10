@@ -1,0 +1,11 @@
+.card{
+    margin-bottom: 15px;
+}
+
+.completed-status{
+    background-color: rgb(211, 255, 211);
+}
+
+.pending-status{
+    background-color: rgb(255, 203, 203);
+}

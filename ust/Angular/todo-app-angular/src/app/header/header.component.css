@@ -1,0 +1,37 @@
+nav{
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    height: 12vh;
+    margin-bottom: 3vh;
+}
+
+.navbar-brand {
+    /* margin: auto; */
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.nav-link{
+    font-size: 20px;
+}
+
+/* #navbarNav{
+    width: 50%;
+    display: flex !important;
+    justify-content: space-evenly !important;
+    align-items: center !important;
+} */
+
+ul{
+    gap: 25px;
+    margin-right: 30px;
+}
+
+#nav-container{
+    width: 100vw;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin: 0 30px;
+}

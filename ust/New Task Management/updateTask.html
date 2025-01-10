@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Task</title>
+    <script src="taskApi.js"></script>
+    <script>
+        let id = 0;
+        window.onload = async () => {
+            const params = new URLSearchParams(window.location.search);
+            id = params.get('id');
+            console.log(id);
+            document.getElementById('tid').value = id;
+
+            const data = await getTaskById(id);
+            console.log(data);
+
+            document.getElementById('tname').value = data.name;
+            document.getElementById('tdes').value = data.description;
+            document.getElementById('tduedate').value = data.dueDate;
+
+        }
+
+        function update(){
+            const name = document.getElementById('tname').value;
+            const description = document.getElementById('tdes').value;
+            const dueDate = document.getElementById('tduedate').value;
+            const status = document.querySelector('input[name="tstatus"]:checked').value;
+            const taskStatus = "Active";
+
+            const task = {id, name, description, dueDate, status, taskStatus};
+
+            updateTask(task).then(() => {
+                window.location.href = "viewTasks.html";
+            })
+        }
+
+    </script>
+</head>
+<body>
+    <form onsubmit="update()">
+        <input type="number" id="tid" placeholder="enter id" disabled>
+        <input type="text" id="tname" placeholder="enter name">
+        <input type="text" id="tdes" placeholder="enter description">
+        <input type="date" id="tduedate" placeholder="enter due date">
+        <span>Status</span>
+        <input type="radio" id="trueStatus" name="tstatus" value="Completed">
+        <label for="trueStatus">Completed</label>
+        <input type="radio" id="falseStatus" name="tstatus" value="Ongoing">
+        <label for="falseStatus">Ongoing</label>
+        <input type="submit">
+    </form>
+    <a href="index.html">Home</a>
+</body>
+</html>

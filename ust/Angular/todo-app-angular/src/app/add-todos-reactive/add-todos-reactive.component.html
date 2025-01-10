@@ -1,0 +1,51 @@
+<div class="col-12 container">
+      <form (submit)="addTodos(todoForm.value)" [formGroup]="todoForm">
+      <div class="form-group">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" name="title" id="title" class="form-control"
+          formControlName="title"
+          [class.is-invalid] = "todoForm.get('title').touched && todoForm.get('title').invalid"
+          [class.is-valid] = "todoForm.get('title').touched && todoForm.get('title').valid"
+          >
+          <small *ngIf="todoForm.get('title').touched && todoForm.get('title').invalid">
+            <small *ngIf="todoForm.get('title').errors?.['required']" class="text-danger">Title is required</small>
+            <small *ngIf="todoForm.get('title').errors?.['pattern']" class="text-danger">Title is less than 3 characters</small>
+          </small>
+      </div>
+      <div class="form-group">
+        <label for="status" class="form-label">Status</label>
+        <select 
+          name="status" 
+          id="status" 
+          class="form-control"
+          formControlName="status"
+          [class.is-invalid]="todoForm.get('status').touched && todoForm.get('status').invalid" 
+          [class.is-valid]="todoForm.get('status').touched && todoForm.get('status').valid"
+        >
+          <option value="" disabled selected>Select Status</option>
+          <option value="COMPLETED">Completed</option>
+          <option value="PENDING">Pending</option>
+        </select>
+        <small *ngIf="todoForm.get('status').touched && todoForm.get('status').invalid">
+          <small *ngIf="todoForm.get('status').errors?.['required']" class="text-danger">Status is required</small>
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="dueDate" class="form-label">Due Date</label>
+        <input type="date" class="form-control" 
+        formControlName="dueDate" name="dueDate" id="dueDate"
+        [class.is-invalid] = "todoForm.get('dueDate').touched && todoForm.get('dueDate').invalid"
+        [class.is-valid] = "todoForm.get('dueDate').touched && todoForm.get('dueDate').valid"
+        >
+      </div>
+      
+      <div class="form-group">
+          <button [disabled]="todoForm.invalid" type="submit" class="btn btn-primary" style="margin: 15px 15px 0 0;">Save Todo</button>
+          <button type="reset" class="btn btn-dark" style="margin: 15px 15px 0 0;">Reset</button>
+          <!-- <button type="button" (click)="printTodos()" class="btn btn-success" style="margin: 15px 15px 0 0;">Print Todos</button> -->
+      </div>
+    </form>
+
+    <p>{{todoForm.value|json}}</p>
+</div>

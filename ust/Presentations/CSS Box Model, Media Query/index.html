@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Layout Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border: 2px solid #ccc;
+            /* Border */
+            border-radius: 14px;
+            /* Rounded corners */
+            text-align: center;
+            width: 25%;
+            height: auto;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 70%;
+            /* Full width image */
+            height: auto;
+            /* Maintain aspect ratio */
+        }
+
+        .card-content {
+            padding: 15px;
+            /* Padding inside the card */
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            margin: 0 0 10px;
+            /* Margin below title */
+        }
+
+        .card-text {
+            color: #555;
+            /* Text color */
+            margin: 0;
+            /* No margin */
+            text-align: left;
+        }
+
+        marquee {
+            background-color: black;
+            color: white;
+            font-size: 30px;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-family: monospace;
+        }
+
+        /* Tabs */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .card {
+                width: 35%;
+            }
+
+            .container {
+                justify-content: space-around;
+            }
+
+            marquee {
+                font-size: 24px;
+                padding: 10px;
+                margin-bottom: 12px;
+            }
+        }
+
+        /* Mobile Devices */
+        @media (min-width: 320px) and (max-width: 767px) {
+            .card {
+                width: 80%;
+                /* One card per row on small screens */
+            }
+
+            .container {
+                gap: 30px;
+            }
+
+            marquee {
+                font-size: 21px;
+                padding: 9px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <marquee behavior="alternative" direction="">Iphone 16 Series</marquee>
+
+    <div class="container">
+        <div class="card">
+            <img src="https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-16.jpg" alt="Card Image 1">
+            <div class="card-content">
+                <h2 class="card-title">IPhone 16</h2>
+                <p class="card-text">iPhone 16 features a sleek design with advanced performance, powered by the latest
+                    A16 chip, offering impressive speed and efficiency for everyday tasks and multitasking.</p>
+                <p class="card-text" style="margin-top: 10px;"><b>Price: ₹ 79,900</b></p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15-plus-.jpg" alt="Card Image 2">
+            <div class="card-content">
+                <h2 class="card-title">IPhone 16 Plus</h2>
+                <p class="card-text">With a larger display, the iPhone 16 Plus enhances your viewing experience, making
+                    it ideal for streaming and gaming, while maintaining all the powerful features of the standard
+                    model.</p>
+                <p class="card-text" style="margin-top: 10px;"><b>Price: ₹ 89,900</b></p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-16-pro.jpg" alt="Card Image 3">
+            <div class="card-content">
+                <h2 class="card-title">IPhone 16 Pro</h2>
+
+                <p class="card-text">The iPhone 16 Pro combines cutting-edge camera technology with professional-grade
+                    features, enabling stunning photography and videography, along with a vibrant Super Retina XDR
+                    display.</p>
+                <p class="card-text" style="margin-top: 10px;"><b>Price: ₹ 1,19,900</b></p>
+
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-16-pro-max.jpg" alt="Card Image 3">
+            <div class="card-content">
+                <h2 class="card-title">IPhone 16 Pro Max</h2>
+                <p class="card-text">As the flagship model, the iPhone 16 Pro Max delivers unparalleled performance, an
+                    expansive screen, and exceptional battery life, making it perfect for power users and creative
+                    professionals.</p>
+                <p class="card-text" style="margin-top: 10px;"><b>Price: ₹ 1,44,900</b></p>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

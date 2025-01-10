@@ -1,0 +1,25 @@
+{
+  "tasks": [
+    {
+      "id": "2",
+      "name": "Play Cricket",
+      "description": "Reach the turf on time tonight to play cricket",
+      "dueDate": "2024-09-28",
+      "completed": "false"
+    },
+    {
+      "id": "3",
+      "name": "Plan New Weekend",
+      "description": "Decide on activities for the upcoming weekend",
+      "dueDate": "2024-09-29",
+      "status": "true"
+    },
+    {
+      "id": "111",
+      "name": "buy milk",
+      "description": "Buy 2 liters",
+      "dueDate": "2024-10-08",
+      "status": "false"
+    }
+  ]
+}

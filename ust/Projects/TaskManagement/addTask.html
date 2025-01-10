@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+    <script src="taskservice.js"></script>
+    <script>
+        function add(){
+            let id = document.getElementById('tid').value;
+            let name = document.getElementById('tname').value;
+            let description = document.getElementById('tdes').value;
+            let dueDate = document.getElementById('tdate').value;
+            let completed = document.getElementById('tstatus').value;
+            let task = {id, name, des, date, status}
+
+            addTask(task);
+        }
+    </script>
+</head>
+<body>
+    <form onsubmit="add()">
+        <input type="number" placeholder="enter id" id="tid">
+        <input type="text" placeholder="enter task name" id="tname">
+        <input type="text" placeholder="enter task description" id="tdes">
+        <input type="date" placeholder="enter due date" id="tdate">
+        <input type="text" placeholder="enter status" id="tstatus">
+        <input type="submit">
+    </form>
+    <br>
+    <a href="viewTasks.html"><button>View Tasks</button></a>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Tasks</title>
+</head>
+<script src="/taskservice.js"></script>
+<script>
+    getTasks().then(data => {
+        data.forEach(element => {
+            let row = document.getElementById("tbody").insertRow();
+            let c1 = row.insertCell(0);
+            let c2 = row.insertCell(1);
+            let c3 = row.insertCell(2);
+            let c4 = row.insertCell(3);
+            let c5 = row.insertCell(4);
+            let c6 = row.insertCell(5);
+
+            c1.innerHTML = element.id;
+            c2.innerHTML = element.name;
+            c3.innerHTML = element.description;
+            c4.innerHTML = element.dueDate;
+            c5.innerHTML = element.completed;
+            let id = element.id;
+            c6.innerHTML = "<button>Update</button><button onclick='deleteTask(`${id}`)'>Delete</button>"
+            // c6.innerHTML = "<button onclick='toggleCompleted(" + element +", this)'>" + ((element.completed === "false")?"Mark as Complete": "Mark as Incomplete") + "</button>"
+        });
+        
+        function toggleCompleted(element, completeButton){
+            if(element.completed === true){
+                element.completed = false;
+                completeButton.innerHTML = "Mark as Complete";
+            }
+            else{
+                element.completed = true;
+                completeButton.innerHTML = "Mark as Incomplete";
+            }
+        }
+    })
+</script>
+<body>
+    <table border="1px">
+        <thead>
+            <tr>
+                <th>Task id</th>
+                <th>Task name</th>
+                <th>Task description</th>
+                <th>Task duedate</th>
+                <th>Task status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+</body>
+</html>

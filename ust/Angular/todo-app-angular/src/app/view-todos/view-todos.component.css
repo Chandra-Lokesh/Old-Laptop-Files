@@ -1,0 +1,11 @@
+.container{
+    height: 70vh;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+h5{
+    text-align: center;
+}

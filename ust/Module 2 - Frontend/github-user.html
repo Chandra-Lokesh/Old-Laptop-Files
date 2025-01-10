@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github Fetching</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="api-call.js"></script>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .hide{
+            display: none;
+        }
+        .show{
+            display: block;
+        }
+        .input-group{
+            margin-top: 40px;
+        }
+        #fetchbutton{
+            width: 30%;
+        }
+        #fetchbutton 
+    </style>
+    <script>
+        async function fetchUser(){
+            const data = await fetchGithubUser(document.getElementById('username').value); 
+            document.getElementById('card').classList.remove('hide');
+            document.getElementById('card').classList.add('show');
+            document.getElementById('uname').innerHTML = data.name;
+            document.getElementById('avatar').setAttribute('src',data.avatar_url);
+            document.getElementById('url').setAttribute('href', data.html_url);
+            document.getElementById('bio').innerHTML = data.bio;
+        }
+    </script>
+</head>
+<body>
+
+    <div style="position:relative;">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">Enter Username</span>
+            <input id = "username" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        </div>
+        <button id="fetchbutton" onclick="fetchUser()" class="btn btn-primary" style=" right: 0; position:absolute;">Fetch</button>
+    </div>
+
+    <br>
+
+    <div id="card" class="card hide" style="width: 22%; margin-top: 60px; padding: 20px 20px 0; margin-bottom: 30px; border-radius: 30px;">
+        <img id="avatar" class="card-img-top" src="" alt="avatar image" style="border-radius: 10px;">
+        <div class="card-body">
+          <h5 id="name" class="card-title">Name: <span id="uname"></span></h5>
+          <p id = "bio" class="card-text"></p>
+          <a id="url" href="" class="btn btn-primary hide">Go to Github</a>
+        </div>
+      </div>
+
+</body>
+</html>

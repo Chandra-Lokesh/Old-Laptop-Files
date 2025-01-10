@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UST Global</title>
+  </head>
+  <body>
+    <h1>Hello UST!</h1>
+    <p>hello world</p>
+    <p>hello duniya</p>
+    <div>hello world</div>
+    <div>hello world</div>
+    <span>hello world</span>
+    <span>hello world</span>
+
+    <dl>
+      <dt>hello world</dt>
+      <dd>hello world</dd>
+      <dt>hello world</dt>
+      <dd>hello world</dd>
+      <dt>hello world</dt>
+      <dd>hello world</dd>
+      <dt>hello world</dt>
+      <dd>hello world</dd>
+    </dl>
+
+    <table border="1px">
+      <thead>
+        <tr>
+          <th>Building Name</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Headquaters</td>
+          <td>Trivandrum</td>
+        </tr>
+        <tr>
+          <td>Headquaters</td>
+          <td>Trivandrum</td>
+        </tr>
+        <tr>
+          <td>Headquaters</td>
+          <td>Trivandrum</td>
+        </tr>
+        <tr>
+          <td>Headquaters</td>
+          <td>Trivandrum</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table border="1px">
+      <thead>
+        <tr>
+          <th rowspan="2">Building Name</th>
+          <th colspan="2">Location</th>
+        </tr>
+        <tr>
+          <th>City</th>
+          <th>State</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Headquaters</td>
+          <td>city</td>
+          <td>state</td>
+        </tr>
+        <tr>
+          <td>Headquaters</td>
+          <td>city</td>
+          <td>state</td>
+        </tr>
+        <tr>
+          <td>Headquaters</td>
+          <td>city</td>
+          <td>state</td>
+        </tr>
+        <tr>
+          <td>Headquaters</td>
+          <td>city</td>
+          <td>state</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h1><a href="https://www.ust.com/" target="_blank">UST Global</a></h1>
+
+    <div>
+      <h3>Images</h3>
+      <img src="" alt="Image Not Found" height="300px" width="300px" />
+    </div>
+  </body>
+  <footer style="">
+    <p style="text-align: center;">&copy;UST&trade;Global</p>
+    <p id="dateview"></p>
+  </footer>
+  <script>
+    function update(){
+      document.getElementById('dateview').textContent = new Date().toLocaleString();
+    }
+    setInterval(update, 1000);
+    
+  </script>
+</html>

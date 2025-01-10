@@ -1,0 +1,14 @@
+.home-container{
+    height: 70vh;
+    width: 100%;
+    margin: auto;
+    padding-top: 10%;
+}
+
+h3{
+    font-size: 4rem;
+}
+
+h3, h5{
+    text-align: center;
+}

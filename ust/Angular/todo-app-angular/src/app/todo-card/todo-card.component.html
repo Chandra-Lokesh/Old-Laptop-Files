@@ -1,0 +1,16 @@
+<div class="card"
+[ngClass]="{
+  'completed-status': todo?.status?.toLowerCase() === 'completed',
+  'pending-status': todo?.status?.toLowerCase() === 'pending'
+}"
+>
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p>{{todo?.title}}</p>
+        <footer class="blockquote-footer">{{todo?.status}}</footer>
+        <!-- <footer class="blockquote-footer">{{todo?.dueDate}}</footer> -->
+      </blockquote>
+      <button type="button" routerLink="{{todo?.id}}" class="btn btn-dark" style="margin: 15px 15px 0 0;">View Details</button>
+      <button type="button" (click)="delete()" class="btn btn-danger" style="margin: 15px 15px 0 0;">Delete</button>
+    </div>
+  </div>

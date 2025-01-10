@@ -1,0 +1,16 @@
+<div class="col-12 container">
+    <h5>Todo List</h5>
+    <!-- <p *ngIf="!todoDataService.todos || ">Not Todos Available</p> -->
+    @for (todo of todoDataService.todos; track todo.id) {
+        <app-todo-card class="card mb-4" [todo]="todo"></app-todo-card>
+    }
+    <!-- <div *ngFor="let todo of todos">
+        <app-todo-card [todo]="todo"></app-todo-card>
+    </div> -->
+</div>
+
+<div>
+    <button class="btn btn-primary" (click)="todoDataService.fetchTodos()">Refresh</button>
+</div>
+
+<router-outlet></router-outlet>
